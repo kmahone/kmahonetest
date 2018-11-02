@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.DotNet.Helix.Sdk" DefaultTargets="Test">
+  <PropertyGroup>
+    <HelixSource>pr/testing</HelixSource>
+    <HelixType>test/stuff</HelixType>
+    <HelixBuild>23456.01</HelixBuild>
+    <HelixTargetQueues>Windows.10.Amd64.Open</HelixTargetQueues>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <HelixWorkItem Include="Hello World!">
+      <Command>echo 'Hai Wurld!'</Command>
+    </HelixWorkItem>
+  </ItemGroup>
+</Project>
