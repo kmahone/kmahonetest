@@ -12,9 +12,9 @@ jobs:
     matrix:
       matrix_a:
         foo: a
-      matrix_a:
+      matrix_b:
         foo: b
-      matrix_a:
+      matrix_c:
         foo: c
         
   variables:
