@@ -44,8 +44,8 @@ jobs:
 #       artifactName: 'drop'
 
 - job: Helix
-  dependsOn:
-    - Build
+  # dependsOn:
+  #   - Build
   steps:
   - task: DotNetCoreCLI@2
     inputs:
