@@ -1,47 +1,47 @@
 jobs:
-- job: Build
-  pool:
-    vmImage: 'VS2017-Win2016'
-  strategy:
-    maxParallel: 3
-    matrix:
-      Debug_x86:
-        buildPlatform: 'x86'
-        buildConfiguration: 'Debug'
-      Release_x64:
-        buildPlatform: 'x64'
-        buildConfiguration: 'Release'
+# - job: Build
+#   pool:
+#     vmImage: 'VS2017-Win2016'
+#   strategy:
+#     maxParallel: 3
+#     matrix:
+#       Debug_x86:
+#         buildPlatform: 'x86'
+#         buildConfiguration: 'Debug'
+#       Release_x64:
+#         buildPlatform: 'x64'
+#         buildConfiguration: 'Release'
         
-  variables:
-    solution: '**/*.sln'
-    appxPackageDir: '$(build.artifactStagingDirectory)\AppxPackages'
+#   variables:
+#     solution: '**/*.sln'
+#     appxPackageDir: '$(build.artifactStagingDirectory)\AppxPackages'
 
-  steps:
-  - task: powershell@2
-    inputs:
-      targetType: filePath
-      filePath: Install-WindowsSdkISO.ps1
-      arguments: 17763
-    displayName: 'Install RS5 SDK (17763)'
+#   steps:
+#   - task: powershell@2
+#     inputs:
+#       targetType: filePath
+#       filePath: Install-WindowsSdkISO.ps1
+#       arguments: 17763
+#     displayName: 'Install RS5 SDK (17763)'
 
-  - task: NuGetToolInstaller@0
+#   - task: NuGetToolInstaller@0
 
-  - task: NuGetCommand@2
-    inputs:
-      restoreSolution: '$(solution)'
+#   - task: NuGetCommand@2
+#     inputs:
+#       restoreSolution: '$(solution)'
 
-  - task: VSBuild@1
-    inputs:
-      platform: '$(buildPlatform)'
-      solution: '$(solution)'
-      configuration: '$(buildConfiguration)'
-      msbuildArgs: '/p:AppxBundlePlatforms="$(buildPlatform)" /p:AppxPackageDir="$(appxPackageDir)" /p:AppxBundle=Never /p:UapAppxPackageBuildMode=StoreUpload'
+#   - task: VSBuild@1
+#     inputs:
+#       platform: '$(buildPlatform)'
+#       solution: '$(solution)'
+#       configuration: '$(buildConfiguration)'
+#       msbuildArgs: '/p:AppxBundlePlatforms="$(buildPlatform)" /p:AppxPackageDir="$(appxPackageDir)" /p:AppxBundle=Never /p:UapAppxPackageBuildMode=StoreUpload'
 
-  - task: PublishBuildArtifacts@1
-    displayName: 'Publish artifact: drop'
-    inputs:
-      PathtoPublish: '$(Build.ArtifactStagingDirectory)\AppxPackages'
-      artifactName: 'drop'
+#   - task: PublishBuildArtifacts@1
+#     displayName: 'Publish artifact: drop'
+#     inputs:
+#       PathtoPublish: '$(Build.ArtifactStagingDirectory)\AppxPackages'
+#       artifactName: 'drop'
 
 - job: Helix
   dependsOn:
