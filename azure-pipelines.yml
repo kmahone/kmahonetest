@@ -41,7 +41,7 @@ jobs:
     inputs:
       platform: 'x86'
       solution: '$(solution)'
-      configuration: '$(node_version)'
+      configuration: '$(foo)'
       msbuildArgs: '/p:AppxBundlePlatforms="$(buildPlatform)" /p:AppxPackageDir="$(appxPackageDir)" /p:AppxBundle=Never /p:UapAppxPackageBuildMode=StoreUpload'
 
   - task: PublishBuildArtifacts@1
