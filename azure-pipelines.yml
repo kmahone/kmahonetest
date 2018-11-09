@@ -16,7 +16,7 @@ steps:
 - task: powershell@2
   inputs:
     targetType: filePath
-    filePath: ./'Install-WindowsSdkISO.ps1'
+    filePath: Install-WindowsSdkISO.ps1
     arguments: 17763
   displayName: 'PowerShell Script'
 
