@@ -10,17 +10,15 @@ jobs:
   strategy:
     maxParallel: 3
     matrix:
-      matrix_a:
-        foo: a
-      matrix_b:
-        foo: b
-      matrix_c:
-        foo: c
+      Debug_x86:
+        buildPlatform: 'x86'
+        buildConfiguration: 'Debug'
+      Release_x64:
+        buildPlatform: 'x64'
+        buildConfiguration: 'Release'
         
   variables:
     solution: '**/*.sln'
-    buildPlatform: 'x86'
-    buildConfiguration: 'Debug'
     appxPackageDir: '$(build.artifactStagingDirectory)\AppxPackages'
 
   steps:
@@ -41,7 +39,7 @@ jobs:
     inputs:
       platform: 'x86'
       solution: '$(solution)'
-      configuration: '$(foo)'
+      configuration: '$(buildConfiguration)'
       msbuildArgs: '/p:AppxBundlePlatforms="$(buildPlatform)" /p:AppxPackageDir="$(appxPackageDir)" /p:AppxBundle=Never /p:UapAppxPackageBuildMode=StoreUpload'
 
   - task: PublishBuildArtifacts@1
