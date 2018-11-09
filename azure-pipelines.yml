@@ -43,15 +43,13 @@ jobs:
       PathtoPublish: '$(Build.ArtifactStagingDirectory)\AppxPackages'
       artifactName: 'drop'
 
-- job: Package
+- job: Helix
   dependsOn:
     - Build
   steps:
-    - task: DownloadBuildArtifacts@0
-      inputs:
-        artifactName: drop
-        downloadPath: '$(Build.ArtifactStagingDirectory)\foo'
-    - task: PublishBuildArtifacts@1
-      inputs:
-        pathToPublish: '$(Build.ArtifactStagingDirectory)\foo'
-        artifactName: 'foo'
+  - task: DotNetCoreCLI@2
+    inputs:
+      command: custom
+      projects: helixtest/helixtest.proj
+      custom: msbuild
+    displayName: Send job to Helix

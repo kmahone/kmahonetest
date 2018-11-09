@@ -2,13 +2,13 @@
   <PropertyGroup>
     <HelixSource>pr/testing</HelixSource>
     <HelixType>test/stuff</HelixType>
-    <HelixBuild>23456.02</HelixBuild>
+    <HelixBuild>2222.02</HelixBuild>
     <HelixTargetQueues>Windows.10.Amd64.Open</HelixTargetQueues>
   </PropertyGroup>
 
   <ItemGroup>
-    <HelixWorkItem Include="Hello World!">
-      <Command>echo 'kmahone testing Helix!'</Command>
+    <HelixWorkItem Include="Hello World22222!">
+      <Command>echo 'kmahone testing Helix! 222222'</Command>
     </HelixWorkItem>
   </ItemGroup>
 </Project>
