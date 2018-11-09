@@ -3,37 +3,48 @@
 # Add steps that test and distribute the app, save build artifacts, and more:
 # https://aka.ms/yaml
 
-pool:
-  vmImage: 'VS2017-Win2016'
+jobs:
+- job: Windows
+  pool:
+    vmImage: 'VS2017-Win2016'
+  strategy:
+    maxParallel: 3
+    matrix:
+      matrix_a:
+        foo: a
+      matrix_a:
+        foo: b
+      matrix_a:
+        foo: c
+        
+  variables:
+    solution: '**/*.sln'
+    buildPlatform: 'x86'
+    buildConfiguration: 'Debug'
+    appxPackageDir: '$(build.artifactStagingDirectory)\AppxPackages'
 
-variables:
-  solution: '**/*.sln'
-  buildPlatform: 'x86'
-  buildConfiguration: 'Debug'
-  appxPackageDir: '$(build.artifactStagingDirectory)\AppxPackages'
+  steps:
+  - task: powershell@2
+    inputs:
+      targetType: filePath
+      filePath: Install-WindowsSdkISO.ps1
+      arguments: 17763
+    displayName: 'Install RS4 SDK (17763)'
 
-steps:
-- task: powershell@2
-  inputs:
-    targetType: filePath
-    filePath: Install-WindowsSdkISO.ps1
-    arguments: 17763
-  displayName: 'PowerShell Script'
+  - task: NuGetToolInstaller@0
 
-- task: NuGetToolInstaller@0
+  - task: NuGetCommand@2
+    inputs:
+      restoreSolution: '$(solution)'
 
-- task: NuGetCommand@2
-  inputs:
-    restoreSolution: '$(solution)'
+  - task: VSBuild@1
+    inputs:
+      platform: 'x86'
+      solution: '$(solution)'
+      configuration: '$(node_version)'
+      msbuildArgs: '/p:AppxBundlePlatforms="$(buildPlatform)" /p:AppxPackageDir="$(appxPackageDir)" /p:AppxBundle=Never /p:UapAppxPackageBuildMode=StoreUpload'
 
-- task: VSBuild@1
-  inputs:
-    platform: 'x86'
-    solution: '$(solution)'
-    configuration: '$(buildConfiguration)'
-    msbuildArgs: '/p:AppxBundlePlatforms="$(buildPlatform)" /p:AppxPackageDir="$(appxPackageDir)" /p:AppxBundle=Never /p:UapAppxPackageBuildMode=StoreUpload'
-
-- task: PublishBuildArtifacts@1
-  displayName: 'Publish artifact: drop'
-  inputs:
-    PathtoPublish: '$(Build.ArtifactStagingDirectory)\AppxPackages'
+  - task: PublishBuildArtifacts@1
+    displayName: 'Publish artifact: drop'
+    inputs:
+      PathtoPublish: '$(Build.ArtifactStagingDirectory)\AppxPackages'
