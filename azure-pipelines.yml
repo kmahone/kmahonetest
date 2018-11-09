@@ -13,9 +13,12 @@ variables:
   appxPackageDir: '$(build.artifactStagingDirectory)\AppxPackages'
 
 steps:
-- powershell: ./'Install-WindowsSdkISO.ps1'
-  arguments: 17763
-  displayName: 'PowerShell Script'
+- task: powershell@2
+    inputs:
+      targetType: filePath
+      filePath: ./'Install-WindowsSdkISO.ps1'
+      arguments: 17763
+    displayName: 'PowerShell Script'
 
 - task: NuGetToolInstaller@0
 
