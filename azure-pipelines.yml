@@ -1,10 +1,5 @@
-# Universal Windows Platform
-# Build a Universal Windows Platform application using Visual Studio.
-# Add steps that test and distribute the app, save build artifacts, and more:
-# https://aka.ms/yaml
-
 jobs:
-- job: Windows
+- job: Build
   pool:
     vmImage: 'VS2017-Win2016'
   strategy:
@@ -27,7 +22,7 @@ jobs:
       targetType: filePath
       filePath: Install-WindowsSdkISO.ps1
       arguments: 17763
-    displayName: 'Install RS4 SDK (17763)'
+    displayName: 'Install RS5 SDK (17763)'
 
   - task: NuGetToolInstaller@0
 
@@ -37,7 +32,7 @@ jobs:
 
   - task: VSBuild@1
     inputs:
-      platform: 'x86'
+      platform: '$(buildPlatform)'
       solution: '$(solution)'
       configuration: '$(buildConfiguration)'
       msbuildArgs: '/p:AppxBundlePlatforms="$(buildPlatform)" /p:AppxPackageDir="$(appxPackageDir)" /p:AppxBundle=Never /p:UapAppxPackageBuildMode=StoreUpload'
