@@ -53,3 +53,5 @@ jobs:
       projects: helixtest/helixtest.proj
       custom: msbuild
     displayName: Send job to Helix
+    env:
+      HelixAccessToken: '$(HelixAccessToken)'
