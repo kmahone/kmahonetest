@@ -41,3 +41,17 @@ jobs:
     displayName: 'Publish artifact: drop'
     inputs:
       PathtoPublish: '$(Build.ArtifactStagingDirectory)\AppxPackages'
+      artifactName: 'drop'
+
+- job: Package
+    dependsOn:
+      - Build
+    steps:
+      - task: DownloadBuildArtifacts@0
+        inputs:
+          artifactName: drop
+          downloadPath: '$(Build.ArtifactStagingDirectory)\foo'
+      - task: PublishBuildArtifacts@1
+        inputs:
+          pathToPublish: '$(Build.ArtifactStagingDirectory)\foo'
+          artifactName: 'foo'
