@@ -2,8 +2,8 @@
   <PropertyGroup>
     <HelixSource>pr/testing</HelixSource>
     <HelixType>test/stuff</HelixType>
-    <HelixBuild>2222.02</HelixBuild>
-    <HelixTargetQueues>Windows.10.Amd64.Open</HelixTargetQueues>
+    <HelixBuild>2222.04</HelixBuild>
+    <HelixTargetQueues>Windows.81.Amd64</HelixTargetQueues>
   </PropertyGroup>
 
   <ItemGroup>
