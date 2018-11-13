@@ -43,7 +43,7 @@ jobs:
       PathtoPublish: '$(Build.ArtifactStagingDirectory)\AppxPackages'
       artifactName: 'drop'
 
-- job: Helix Tests
+- job: Helix
   dependsOn:
     - Build
   steps:
