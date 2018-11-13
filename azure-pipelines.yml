@@ -43,15 +43,15 @@ jobs:
       PathtoPublish: '$(Build.ArtifactStagingDirectory)\AppxPackages'
       artifactName: 'drop'
 
-- job: Helix
-  dependsOn:
-    - Build
-  steps:
-  - task: DotNetCoreCLI@2
-    inputs:
-      command: custom
-      projects: helixtest/helixtest.proj
-      custom: msbuild
-    displayName: Send job to Helix
-    env:
-      HelixAccessToken: '$(HelixAccessToken)'
+# - job: Helix
+#   dependsOn:
+#     - Build
+#   steps:
+#   - task: DotNetCoreCLI@2
+#     inputs:
+#       command: custom
+#       projects: helixtest/helixtest.proj
+#       custom: msbuild
+#     displayName: Send job to Helix
+#     env:
+#       HelixAccessToken: '$(HelixAccessToken)'
