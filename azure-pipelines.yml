@@ -17,12 +17,12 @@ jobs:
     appxPackageDir: '$(build.artifactStagingDirectory)\AppxPackages'
 
   steps:
-  # - task: powershell@2
-  #   inputs:
-  #     targetType: filePath
-  #     filePath: Install-WindowsSdkISO.ps1
-  #     arguments: 17763
-  #   displayName: 'Install RS5 SDK (17763)'
+  - task: powershell@2
+    inputs:
+      targetType: filePath
+      filePath: Install-WindowsSdkISO.ps1
+      arguments: 17763
+    displayName: 'Install RS5 SDK (17763)'
 
   - script: set
     displayName: 'Display current environment variables'
