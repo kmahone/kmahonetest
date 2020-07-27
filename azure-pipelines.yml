@@ -1,57 +1,47 @@
 jobs:
 - job: Build
   pool:
-    vmImage: 'VS2017-Win2016'
-  strategy:
-    maxParallel: 3
-    matrix:
-      Debug_x86:
-        buildPlatform: 'x86'
-        buildConfiguration: 'Debug'
-      Release_x64:
-        buildPlatform: 'x64'
-        buildConfiguration: 'Release'
+    name: vmssagentpool
+  # strategy:
+  #   maxParallel: 3
+  #   matrix:
+  #     Debug_x86:
+  #       buildPlatform: 'x86'
+  #       buildConfiguration: 'Debug'
+  #     Release_x64:
+  #       buildPlatform: 'x64'
+  #       buildConfiguration: 'Release'
         
   variables:
     solution: '**/*.sln'
     appxPackageDir: '$(build.artifactStagingDirectory)\AppxPackages'
 
   steps:
-  - task: powershell@2
-    inputs:
-      targetType: filePath
-      filePath: Install-WindowsSdkISO.ps1
-      arguments: 17763
-    displayName: 'Install RS5 SDK (17763)'
+  # - task: powershell@2
+  #   inputs:
+  #     targetType: filePath
+  #     filePath: Install-WindowsSdkISO.ps1
+  #     arguments: 17763
+  #   displayName: 'Install RS5 SDK (17763)'
+
+  - script: set
+    displayName: 'Display current environment variables'
 
   - task: NuGetToolInstaller@0
 
-  - task: 333b11bd-d341-40d9-afcf-b32d5ce6f23b@2
-    inputs:
-      restoreSolution: '$(solution)'
+  # - task: 333b11bd-d341-40d9-afcf-b32d5ce6f23b@2
+  #   inputs:
+  #     restoreSolution: '$(solution)'
 
-  - task: VSBuild@1
-    inputs:
-      platform: '$(buildPlatform)'
-      solution: '$(solution)'
-      configuration: '$(buildConfiguration)'
-      msbuildArgs: '/p:AppxBundlePlatforms="$(buildPlatform)" /p:AppxPackageDir="$(appxPackageDir)" /p:AppxBundle=Never /p:UapAppxPackageBuildMode=StoreUpload'
+  # - task: VSBuild@1
+  #   inputs:
+  #     platform: '$(buildPlatform)'
+  #     solution: '$(solution)'
+  #     configuration: '$(buildConfiguration)'
+  #     msbuildArgs: '/p:AppxBundlePlatforms="$(buildPlatform)" /p:AppxPackageDir="$(appxPackageDir)" /p:AppxBundle=Never /p:UapAppxPackageBuildMode=StoreUpload'
 
-  - task: PublishBuildArtifacts@1
-    displayName: 'Publish artifact: drop'
-    inputs:
-      PathtoPublish: '$(Build.ArtifactStagingDirectory)\AppxPackages'
-      artifactName: 'drop'
-
-# - job: Helix
-#   dependsOn:
-#     - Build
-#   steps:
-#   - task: DotNetCoreCLI@2
-#     inputs:
-#       command: custom
-#       projects: helixtest/helixtest.proj
-#       custom: msbuild
-#     displayName: Send job to Helix
-#     env:
-#       HelixAccessToken: '$(HelixAccessToken)'
+  # - task: PublishBuildArtifacts@1
+  #   displayName: 'Publish artifact: drop'
+  #   inputs:
+  #     PathtoPublish: '$(Build.ArtifactStagingDirectory)\AppxPackages'
+  #     artifactName: 'drop'
