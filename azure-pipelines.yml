@@ -1,7 +1,7 @@
 jobs:
 - job: Build
   pool:
-    name: vmssagentpool
+    vmImage: 'VS2017-Win2016'
   strategy:
     maxParallel: 3
     matrix:
@@ -17,12 +17,12 @@ jobs:
     appxPackageDir: '$(build.artifactStagingDirectory)\AppxPackages'
 
   steps:
-  - task: powershell@2
-    inputs:
-      targetType: filePath
-      filePath: Install-WindowsSdkISO.ps1
-      arguments: 17763
-    displayName: 'Install RS5 SDK (17763)'
+  # - task: powershell@2
+  #   inputs:
+  #     targetType: filePath
+  #     filePath: Install-WindowsSdkISO.ps1
+  #     arguments: 17763
+  #   displayName: 'Install RS5 SDK (17763)'
 
   - script: set
     displayName: 'Display current environment variables'
@@ -38,7 +38,14 @@ jobs:
       platform: '$(buildPlatform)'
       solution: '$(solution)'
       configuration: '$(buildConfiguration)'
-      msbuildArgs: '/p:AppxBundlePlatforms="$(buildPlatform)" /p:AppxPackageDir="$(appxPackageDir)" /p:AppxBundle=Never /p:UapAppxPackageBuildMode=StoreUpload'
+      msbuildArgs: '/p:AppxBundlePlatforms="$(buildPlatform)" /p:AppxPackageDir="$(appxPackageDir)" /p:AppxBundle=Never /p:UapAppxPackageBuildMode=StoreUpload /binaryLogger:$(Build.SourcesDirectory)/build.binlog'
+
+  - task: PublishBuildArtifacts@1
+    displayName: 'Publish build binlog'
+    condition: succeededOrFailed()
+    inputs:
+      PathtoPublish: $(Build.SourcesDirectory)/build.binlog
+      artifactName: binlogs
 
   - task: PublishBuildArtifacts@1
     displayName: 'Publish artifact: drop'
